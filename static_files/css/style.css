@@ -15,7 +15,7 @@ body {
 /* #A9A9A9 */
 .container{
     position: relative;
-    background-color: #87CEEB;
+    background-color: #1d5997;
     color: #ffffff;
     text-align: center;
     width: 100%;
@@ -38,7 +38,7 @@ body {
 
 .container p{
     font-size: 1rem;
-    margin: 0 5rem 0 5rem;
+    margin: 0 5rem 7rem 5rem;
 }
 
 .container svg{
@@ -52,7 +52,7 @@ body {
     padding: 20px;
     background: #fff;
     border-radius: 5px;
-    border-top: 5px solid #87CEEB;
+    border-top: 5px solid #1d5997;
     margin: 0 auto;
     box-shadow: 20px 20px 20px rgba(0,0,0,0.1);
 }
@@ -80,16 +80,16 @@ body {
 }
 
 .login-block input:active, .login-block input:focus {
-    border: 1px solid #87CEEB;
+    border: 1px solid #1d5997;
 }
 
 .login-block button {
     width: 100%;
     height: 40px;
-    background: #87CEEB;
+    background: #1d5997;
     box-sizing: border-box;
     border-radius: 5px;
-    border: 1px solid #87AEAB;
+    border: 1px solid #1d5997;
     color: #fff;
     font-weight: bold;
     text-transform: uppercase;
@@ -100,7 +100,7 @@ body {
 }
 
 .login-block button:hover {
-    background: #87CAEB;
+    background: #1d5997;
 }
 
 footer{
@@ -113,5 +113,5 @@ footer{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #87CAEB;
+    background-color: #1d5997;
 }
