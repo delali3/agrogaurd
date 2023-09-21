@@ -29,7 +29,7 @@ app.get('/thankyou', function(req, res){
 });
 
 app.get('/fetch', function(req, res){
-    data = WeatherServices.fetchData(51.5074, -0.4643);
+    data = WeatherServices.fetchWeatherForUsers();
     res.render('register');
 });
 
