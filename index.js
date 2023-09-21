@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+// Import the scheduling code from schedule.js
+const schedule = require('./services/schedule');
+
 // Configure body-parser middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -21,6 +24,7 @@ app.use(express.static(path.join(__dirname, "static_files")));
 
 // Start siteController
 siteController(app);
+
 
 // Listen to port
 app.listen(port, () => {

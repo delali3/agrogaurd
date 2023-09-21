@@ -10,6 +10,8 @@ const serviceId = process.env.serviceId;
 const templateId = process.env.templateId;
 const userId = process.env.userId;
 
+const client = require('twilio')(accountSid, authToken);
+
 class WeatherServices {
     static async registerUser(fullname, email, phone, city, password, lat, lon) {
         // Check if the phone number starts with '0' and is 10 characters long
@@ -17,11 +19,11 @@ class WeatherServices {
             // Format the phone number with '233' country code and remove the leading '0'
             phone = `233${phone.substring(1)}`;
         }
-    
+
         const createNote = new userModel({ fullname, email, phone, city, password, lat, lon });
         this.sendEmail(fullname, email);
         return await createNote.save();
-    }    
+    }
 
     static async fetchWeatherForUsers() {
 
@@ -54,7 +56,7 @@ class WeatherServices {
                 Temperature is currently at ${temp} °C.\n
                 Min Temperature is: ${temp_min}°C\n
                 Max temperature is :${temp_max}°C\n
-                Wind Speed is:${windspeed}\n
+                Wind Speed is: ${windspeed}\n
                 Pressure is: ${pressure} hPa\n
                 Humidity is: ${humidity}%\n\n
                 Thank You
@@ -74,49 +76,18 @@ class WeatherServices {
 
     // Define sendSMS as a static function
     static async sendSMS(phone, weatherData) {
-        const from = '+15412830191'; // Your Twilio phone number
-        const to = `+${phone}`;
-        const body = weatherData;
-
-        const messageApi = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
-        const auth = base64.encode(`${accountSid}:${authToken}`);
-
-        const headers = {
-            'Authorization': `Basic ${auth}`,
-            'Content-Type': 'application/x-www-form-urlencoded',
-        };
-
-        const requestBody = {
-            'From': from,
-            'To': to,
-            'Body': body,
-        };
-
-        try {
-            const response = await axios.post(messageApi, null, {
-                headers: headers,
-                params: requestBody,
-            });
-
-            if (response.status === 201) {
-                // Successful request
-                const responseBody = response.data;
-                const sid = responseBody.sid;
-                console.log(`SMS sent successfully. SID: ${sid}`);
-            } else {
-                // Error in request
-                console.error(`Request failed with status: ${response.status}.`);
-                console.error(response.data);
-            }
-        } catch (error) {
-            // Exception occurred
-            console.error('Exception:', error);
-        }
+        client.messages
+            .create({
+                body: weatherData,
+                from: '+15412830191',
+                to: `+${phone}`
+            })
+            .then(message => console.log(message.sid));
     }
 
     static async sendEmail(name, email) {
         const url = 'https://api.emailjs.com/api/v1.0/email/send';
-    
+
         try {
             const response = await axios.post(url, {
                 service_id: serviceId,
@@ -136,13 +107,13 @@ class WeatherServices {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     }
-    
+
 }
 
 module.exports = WeatherServices;
